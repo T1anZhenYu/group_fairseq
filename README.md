@@ -8,10 +8,9 @@
 
 
 - ** there are some redundant print needed to be deleted
-- ** modified by linux 
-- ** modified by windows
 
-- ** modified in develop branch
 
 switch origin branch: git branch -u origin/develop (or origin/hotfix or origin/master)
+
+Usage:
 
