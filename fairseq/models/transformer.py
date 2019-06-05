@@ -701,7 +701,7 @@ class TransformerDecoderLayer(nn.Module):
                 key_padding_mask=encoder_padding_mask,
                 incremental_state=incremental_state,
                 static_kv=True,
-                need_weights=(not self.training and self.need_attn),
+                need_weights=True,
             )
             x = F.dropout(x, p=self.dropout, training=self.training)
             x = residual + x
