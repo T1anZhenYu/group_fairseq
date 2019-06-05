@@ -125,6 +125,9 @@ def load_checkpoint_to_cpu(path):
     state = torch.load(
         path, map_location=lambda s, l: default_restore_location(s, 'cpu'),
     )
+
+    print('state is ')
+    print(state)
     state = _upgrade_state_dict(state)
     return state
 
