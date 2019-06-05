@@ -59,11 +59,14 @@ class GroupTransformerEntropy(FairseqCriterion):
         target = model.get_targets(sample, net_output).view(-1, 1)
         # add eos loss
         attns = net_output[1]['attn']
-        loss_eos =  attns[:,:,-1][:,:-1].sum()-attn[:,:,-1][:,-1].sum()
+        loss_eos =  attns[:,:,-1][:,:-1].sum()-attns[:,:,-1][:,-1].sum()
         loss_eos = loss_eos.float()
-        
+        print('padding_idx')
+        print(self.padding_idx)
 
         non_pad_mask = target.ne(self.padding_idx)
+        print('non_pad_mask')
+        print(non_pad_mask)
         nll_loss = -lprobs.gather(dim=-1, index=target)[non_pad_mask]
         smooth_loss = -lprobs.sum(dim=-1, keepdim=True)[non_pad_mask]
         # remove reduce
