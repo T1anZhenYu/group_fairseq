@@ -128,10 +128,20 @@ def load_checkpoint_to_cpu(path):
 
     print('state is ')
     print(path)
+    print('len state ',len(state['model']))
     print(state)
+    def insert_layer(state):
+        new_state = OrderedDict()
+        for k,v in state.items():
+            new_state[k]=v
+            if k == 'encoder.layers.5.final_layer_norm.bias':
+                new_state['one']=0
+                new_state['two']=0
+        return(new_state)
+    
     state = _upgrade_state_dict(state)
-    print('-------')
-    print(state)
+
+
     return state
 
 
