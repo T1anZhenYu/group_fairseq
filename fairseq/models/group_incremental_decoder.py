@@ -89,7 +89,7 @@ class GroupIncrementalDecoder(FairseqDecoder):
 
             self.apply(apply_set_beam_size)
             self._beam_size = beam_size
-    def get_normalized_probs(self, net_output, log_probs, sample):
+    def get_normalized_probs1(self, net_output, log_probs, sample):
         """Get normalized probabilities (or log probs) from a net's output."""
         #get (N * Src_len,1) label
         def get_len_label(attns):
