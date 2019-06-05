@@ -54,7 +54,7 @@ class GroupTransformerEntropy(FairseqCriterion):
 
     def compute_loss(self, model, net_output, sample, reduce=True):
         #lprobs,lprobs2,target2 = model.get_normalized_probs(net_output, log_probs=True)
-        lprobs = model.get_normalized_probs(net_output, log_probs=True)
+        lprobs, lprobs2, target2 = model.get_normalized_probs(net_output, log_probs=True)
         lprobs = lprobs.view(-1, lprobs.size(-1))
         target = model.get_targets(sample, net_output).view(-1, 1)
         # add eos loss
@@ -83,7 +83,7 @@ class GroupTransformerEntropy(FairseqCriterion):
         eps_i = self.eps / lprobs.size(-1)
     
         loss = (1. - self.eps) * nll_loss + eps_i * smooth_loss 
-        acc2 = 0
+    
 
 
         lprobs2 = lprobs2.view(-1,lprobs2.size(-1))
