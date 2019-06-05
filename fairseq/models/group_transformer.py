@@ -811,4 +811,5 @@ def transformer_iwslt_de_en(args):
     args.decoder_layers = getattr(args, 'decoder_layers', 6)
     args.save_attn = getattr(args,'save_attn',False)
     args.save_attn_path = getattr(args,'save_attn_path','./img')
+    args.length_pre_dim = getattr(args,'length_pre_dim',30)
     base_architecture(args)
