@@ -59,7 +59,7 @@ class GroupTransformerEntropy(FairseqCriterion):
         target = model.get_targets(sample, net_output).view(-1, 1)
         # add eos loss
         attns = net_output[1]['attn']
-        loss_eos =  attns[:,:,-1][:,:-1].sum()
+        loss_eos =  attns[:,:,-1][:,:-1].sum()-attn[:,:,-1][:,-1].sum()
         loss_eos = loss_eos.float()
         
 
