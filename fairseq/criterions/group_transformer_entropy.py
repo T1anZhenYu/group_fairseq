@@ -73,7 +73,7 @@ class GroupTransformerEntropy(FairseqCriterion):
             smooth_loss = smooth_loss.sum()
         '''
 
-        nll_loss = nll_loss.sum() + loss_eos*2
+        nll_loss = nll_loss.sum()
 
         smooth_loss = smooth_loss.sum()
 
@@ -82,8 +82,7 @@ class GroupTransformerEntropy(FairseqCriterion):
         loss = (1. - self.eps) * nll_loss + eps_i * smooth_loss 
         acc2 = 0
 
-        '''
-        #-----------------------------------------------------------------------
+
         lprobs2 = lprobs2.view(-1,lprobs2.size(-1))
 
         #restrict target2 in range(0~len_pre_dim)
@@ -112,8 +111,7 @@ class GroupTransformerEntropy(FairseqCriterion):
         loss_total = loss+loss2
         nll_loss_total = nll_loss2 + nll_loss
         
-        return loss,nll_loss, acc2
-        '''
+
         return loss,nll_loss,acc2
     @staticmethod
     def aggregate_logging_outputs(logging_outputs):
