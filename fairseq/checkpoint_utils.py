@@ -126,9 +126,6 @@ def load_checkpoint_to_cpu(path):
         path, map_location=lambda s, l: default_restore_location(s, 'cpu'),
     )
 
-    print('state is ')
-    print(path)
-
     def insert_layer(state):
         new_state = OrderedDict()
         for k,v in state.items():
