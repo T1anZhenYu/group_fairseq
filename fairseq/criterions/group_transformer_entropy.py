@@ -53,8 +53,8 @@ class GroupTransformerEntropy(FairseqCriterion):
         return loss, sample_size, logging_output
 
     def compute_loss(self, model, net_output, sample, reduce=True):
-        lprobs,lprobs2,target2 = model.get_normalized_probs(net_output, log_probs=True)
-
+        #lprobs,lprobs2,target2 = model.get_normalized_probs(net_output, log_probs=True)
+        lprobs = model.get_normalized_probs(net_output, log_probs=True)
         lprobs = lprobs.view(-1, lprobs.size(-1))
         target = model.get_targets(sample, net_output).view(-1, 1)
         # add eos loss
@@ -72,20 +72,17 @@ class GroupTransformerEntropy(FairseqCriterion):
             nll_loss = nll_loss.sum()
             smooth_loss = smooth_loss.sum()
         '''
-        print('nll_loss.sum ',nll_loss.sum())
-        nll_loss = nll_loss.sum() + loss_eos*2
-        print('loss_eos is {}'.format(loss_eos))
 
-        print('nll_loss, ',nll_loss)
-        print('self.eps ',self.eps)
-        
+        nll_loss = nll_loss.sum() + loss_eos*2
+
         smooth_loss = smooth_loss.sum()
 
         eps_i = self.eps / lprobs.size(-1)
-        print('eps_i ',eps_i)
+    
         loss = (1. - self.eps) * nll_loss + eps_i * smooth_loss 
+        acc2 = 0
 
-
+        '''
         #-----------------------------------------------------------------------
         lprobs2 = lprobs2.view(-1,lprobs2.size(-1))
 
@@ -114,9 +111,10 @@ class GroupTransformerEntropy(FairseqCriterion):
         acc2 = float(torch.eq(len_pre.sum(dim=-1),target2.sum(dim=-1)).sum())/float((len_pre.shape[0]))
         loss_total = loss+loss2
         nll_loss_total = nll_loss2 + nll_loss
-     
+        
         return loss,nll_loss, acc2
-
+        '''
+        return loss,nll_loss,acc2
     @staticmethod
     def aggregate_logging_outputs(logging_outputs):
         """Aggregate logging outputs from data parallel training."""
