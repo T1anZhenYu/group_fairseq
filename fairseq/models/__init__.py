@@ -20,7 +20,7 @@ from .fairseq_model import (
     FairseqModel,
     FairseqMultiModel,
 )
-
+from .group_incremental_decoder import GroupIncrementalDecoder
 from .composite_encoder import CompositeEncoder
 from .distributed_fairseq_model import DistributedFairseqModel
 
@@ -37,6 +37,7 @@ __all__ = [
     'FairseqLanguageModel',
     'FairseqModel',
     'FairseqMultiModel',
+    'GroupIncrementalDecoder',
 ]
 
 

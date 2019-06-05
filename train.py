@@ -48,6 +48,20 @@ def main(args, init_distributed=False):
 
     # Build model and criterion
     model = task.build_model(args)
+
+
+    #------set part of the model trainnable
+    for i, parm in  enumerate(list(model.parameters())):
+        
+        if i == 73 or i == 74:
+            parm.requires_grad = False
+        elif i !=0 :
+            parm.requires_grad = True
+        
+        #parm.requires_grad = True
+        print('id: ',i,' shape ',parm.shape,'trainnable',parm.requires_grad)
+
+
     criterion = task.build_criterion(args)
     print(model)
     print('| model {}, criterion {}'.format(args.arch, criterion.__class__.__name__))
@@ -134,6 +148,7 @@ def train(args, trainer, task, epoch_itr):
             else:
                 extra_meters[k].update(v)
             stats[k] = extra_meters[k].avg
+
         progress.log(stats, tag='train', step=stats['num_updates'])
 
         # ignore the first mini-batch in words-per-second calculation
@@ -155,6 +170,8 @@ def train(args, trainer, task, epoch_itr):
 
     # log end-of-epoch stats
     stats = get_training_stats(trainer)
+
+
     for k, meter in extra_meters.items():
         stats[k] = meter.avg
     progress.print(stats, tag='train', step=stats['num_updates'])

@@ -12,8 +12,8 @@ import torch
 from . import FairseqCriterion, register_criterion
 
 
-@register_criterion('acc_label_smoothed_cross_entropy')
-class AccLabelSmoothedCrossEntropyCriterion(FairseqCriterion):
+@register_criterion('acc_label_smoothed_cross_entropy_backup')
+class AccLabelSmoothedCrossEntropyCriterionBackUp(FairseqCriterion):
 
     def __init__(self, args, task):
         super().__init__(args, task)
