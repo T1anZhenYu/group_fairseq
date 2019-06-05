@@ -127,8 +127,11 @@ def load_checkpoint_to_cpu(path):
     )
 
     print('state is ')
+    print(path)
     print(state)
     state = _upgrade_state_dict(state)
+    print('-------')
+    print(state)
     return state
 
 
