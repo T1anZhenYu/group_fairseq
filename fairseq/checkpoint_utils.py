@@ -128,17 +128,20 @@ def load_checkpoint_to_cpu(path):
 
     print('state is ')
     print(path)
-    print('len state ',len(state['model']))
-    print(state)
+
     def insert_layer(state):
         new_state = OrderedDict()
         for k,v in state.items():
             new_state[k]=v
             if k == 'encoder.layers.5.final_layer_norm.bias':
-                new_state['one']=0
-                new_state['two']=0
+                new_state['encoder.length_pre_layer.weight']= torch.zeros(512,30)
+
+                new_state['encoder.length_pre_layer.bias']=torch.zeros(30)
         return(new_state)
-    
+    if len(state['model']==187):
+        state['model'] = insert_layer(state['model'])
+    print('len state ',len(state['model']))
+    print(state)
     state = _upgrade_state_dict(state)
 
 

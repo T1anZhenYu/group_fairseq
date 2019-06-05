@@ -201,8 +201,8 @@ class TransformerEncoder(FairseqEncoder):
         self.normalize = args.encoder_normalize_before
         if self.normalize:
             self.layer_norm = LayerNorm(embed_dim)
-        self.length_pre_layer = TransformerLengthPreLayer(args)
-
+        #self.length_pre_layer = TransformerLengthPreLayer(args)
+        self.length_pre_layer = Linear(args.encoder_embed_dim,args.length_pre_dim)
     def forward(self, src_tokens, src_lengths):
         """
         Args:
