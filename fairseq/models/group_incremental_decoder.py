@@ -89,7 +89,7 @@ class GroupIncrementalDecoder(FairseqDecoder):
 
             self.apply(apply_set_beam_size)
             self._beam_size = beam_size
-    def get_normalized_probs1(self, net_output, log_probs, sample):
+    def get_normalized_probs(self, net_output, log_probs, sample):
         """Get normalized probabilities (or log probs) from a net's output."""
         #get (N * Src_len,1) label
         def get_len_label(attns):
@@ -132,14 +132,16 @@ class GroupIncrementalDecoder(FairseqDecoder):
                 target = None
             out1 = self.adaptive_softmax.get_log_prob(net_output[0], target=target)
             out2 = self.adaptive_softmax.get_log_prob(net_output[1]['len_pre'],target=len_pre_labels)
-            return out1.exp_() if not log_probs else out1, out2.exp_() if not log_probs else out2,len_pre_labels
-
+            #return out1.exp_() if not log_probs else out1, out2.exp_() if not log_probs else out2,len_pre_labels
+            return out1.exp_() if not log_probs else out1
         logits = net_output[0]
         if log_probs:
             out1 = utils.log_softmax(logits, dim=-1, onnx_trace=self.onnx_trace)
             out2 = utils.log_softmax(net_output[1]['len_pre'],dim=-1,onnx_trace=self.onnx_trace)
-            return out1,out2,len_pre_labels
+            #return out1,out2,len_pre_labels
+            return out1
         else:
             out1 = utils.softmax(logits, dim=-1, onnx_trace=self.onnx_trace)
             out2 = utils.softmax(net_output[1]['len_pre'],dim=-1,onnx_trace=self.onnx_trace)            
-            return out1,out2,len_pre_labels
+            #return out1,out2,len_pre_labels
+            return out1
