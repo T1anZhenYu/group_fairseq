@@ -8,6 +8,6 @@ def save_attn(m, file_path):
             save_image(m[i],file_path+'/'+str(i)+'_'+str(m.shape[0])+'_'+\
                        str(m.shape[1])+'_'+str(m.shape[-1])+'.jpg')
     elif len(m.shape) == 2:
-        save_image(m[i],file_path+'/'+str(i)+'_'+str(m.shape[0])+'_'+\
-                   str(m.shape[1])+'_'+str(m.shape[-1])+'.jpg')    	
+        save_image(m,file_path+'/'+str(i)+'_'+str(m.shape[0])+'_'+\
+                   str(m.shape[1])+'.jpg')    	
 
