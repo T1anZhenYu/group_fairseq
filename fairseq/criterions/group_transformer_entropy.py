@@ -74,8 +74,8 @@ class GroupTransformerEntropy(FairseqCriterion):
             smooth_loss = smooth_loss.sum()
         '''
 
-        nll_loss = nll_loss.sum()+loss_eos
-
+        #nll_loss = nll_loss.sum()+loss_eos
+        nll_loss = nll_loss.sum()
         smooth_loss = smooth_loss.sum()
 
         eps_i = self.eps / lprobs.size(-1)
