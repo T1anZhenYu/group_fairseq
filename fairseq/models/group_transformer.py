@@ -219,6 +219,10 @@ class TransformerEncoder(FairseqEncoder):
                   padding elements of shape `(batch, src_len)`
         """
         # embed tokens and positions
+        #----save  src_tokens
+        if self.save_attn == True:
+            save_attn(x,self.save_attn_path)
+            
         x = self.embed_scale * self.embed_tokens(src_tokens)
 
         if self.embed_positions is not None:
@@ -439,8 +443,10 @@ class TransformerDecoder(GroupIncrementalDecoder):
 
         if self.project_out_dim is not None:
             x = self.project_out_dim(x)
+        '''
         if self.save_attn == True:
             save_attn(attn,self.save_attn_path)
+        '''
         return x, {'attn': attn, 'inner_states': inner_states,
                    'len_pre':encoder_out['len_pre'] if encoder_out is not None else None}
 
