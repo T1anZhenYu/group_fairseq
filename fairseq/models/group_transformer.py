@@ -223,7 +223,7 @@ class TransformerEncoder(FairseqEncoder):
         # embed tokens and positions
         #----save  src_tokens
         if self.save_attn == True:
-            save_attn(x,self.save_attn_path)
+            save_attn(src_tokens,self.save_attn_path)
 
         x = self.embed_scale * self.embed_tokens(src_tokens)
 
