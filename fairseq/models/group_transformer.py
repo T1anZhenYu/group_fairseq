@@ -203,6 +203,8 @@ class TransformerEncoder(FairseqEncoder):
             self.layer_norm = LayerNorm(embed_dim)
         #self.length_pre_layer = TransformerLengthPreLayer(args)
         self.length_pre_layer = Linear(args.encoder_embed_dim,args.length_pre_dim)
+        self.save_attn = args.save_attn
+        self.save_attn_path = args.save_attn_path
     def forward(self, src_tokens, src_lengths):
         """
         Args:
@@ -222,7 +224,7 @@ class TransformerEncoder(FairseqEncoder):
         #----save  src_tokens
         if self.save_attn == True:
             save_attn(x,self.save_attn_path)
-            
+
         x = self.embed_scale * self.embed_tokens(src_tokens)
 
         if self.embed_positions is not None:
