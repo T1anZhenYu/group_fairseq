@@ -623,7 +623,8 @@ class EnsembleModel(torch.nn.Module):
             attn = attn[:, -1, :]
         #i modified this.------------------------------------------------------
         probs = model.get_normalized_probs(decoder_out, log_probs=log_probs)
-
+        if isinstance(probs,tuple):
+            probs = probs[0]
         probs = probs[:, -1, :]
         return probs, attn
 
