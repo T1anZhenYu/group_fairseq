@@ -221,10 +221,12 @@ class TransformerEncoder(FairseqEncoder):
                   padding elements of shape `(batch, src_len)`
         """
         # embed tokens and positions
+
         #----save  src_tokens
         if self.save_attn == True:
             save_attn(src_tokens,self.save_attn_path)
-
+        print('src_tokens')
+        print(src_tokens[:3])
         x = self.embed_scale * self.embed_tokens(src_tokens)
 
         if self.embed_positions is not None:
