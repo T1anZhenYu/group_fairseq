@@ -131,9 +131,9 @@ def load_checkpoint_to_cpu(path):
         for k,v in state.items():
             new_state[k]=v
             if k == 'encoder.layers.5.final_layer_norm.bias':
-                new_state['encoder.length_pre_layer.weight']= torch.zeros(30,512)
+                new_state['encoder.length_pre_layer.weight']= torch.zeros(49,1024)
 
-                new_state['encoder.length_pre_layer.bias']=torch.zeros(30)
+                new_state['encoder.length_pre_layer.bias']=torch.zeros(49)
         return(new_state)
    
     if len(state['model'])==187:
