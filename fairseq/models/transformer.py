@@ -114,6 +114,8 @@ class TransformerModel(FairseqEncoderDecoderModel):
         parser.add_argument('--save-attn',default=False, action='store_true',
                             help='if set, disables positional embeddings (outside self attention)')
         parser.add_argument('--save-attn-path',type=str)
+
+        parser.add_argument('--share-input-output-embed',default=False,action='store_true')
         # fmt: on
 
     @classmethod
