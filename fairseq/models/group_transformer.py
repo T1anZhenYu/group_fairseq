@@ -201,8 +201,10 @@ class TransformerEncoder(FairseqEncoder):
         self.normalize = args.encoder_normalize_before
         if self.normalize:
             self.layer_norm = LayerNorm(embed_dim)
-        self.length_pre_layer = TransformerLengthPreLayer(args)
-
+        #self.length_pre_layer = TransformerLengthPreLayer(args)
+        self.length_pre_layer = Linear(args.encoder_embed_dim,args.length_pre_dim)
+        self.save_attn = args.save_attn
+        self.save_attn_path = args.save_attn_path
     def forward(self, src_tokens, src_lengths):
         """
         Args:
@@ -219,6 +221,10 @@ class TransformerEncoder(FairseqEncoder):
                   padding elements of shape `(batch, src_len)`
         """
         # embed tokens and positions
+
+        #----save  src_tokens
+
+
         x = self.embed_scale * self.embed_tokens(src_tokens)
 
         if self.embed_positions is not None:
@@ -439,8 +445,10 @@ class TransformerDecoder(GroupIncrementalDecoder):
 
         if self.project_out_dim is not None:
             x = self.project_out_dim(x)
+
         if self.save_attn == True:
             save_attn(attn,self.save_attn_path)
+
         return x, {'attn': attn, 'inner_states': inner_states,
                    'len_pre':encoder_out['len_pre'] if encoder_out is not None else None}
 
@@ -798,3 +806,18 @@ def base_architecture(args):
     args.length_pre_dim = getattr(args,'length_pre_dim',49)
     args.save_attn = getattr(args,'save_attn',False)
     args.save_attn_path = getattr(args,'save_attn_path','./img')
+
+@register_model_architecture('group_transformer', 'group_transformer_iwslt_de_en')
+def transformer_iwslt_de_en(args):
+    args.encoder_embed_dim = getattr(args, 'encoder_embed_dim', 512)
+    args.encoder_ffn_embed_dim = getattr(args, 'encoder_ffn_embed_dim', 1024)
+    args.encoder_attention_heads = getattr(args, 'encoder_attention_heads', 4)
+    args.encoder_layers = getattr(args, 'encoder_layers', 6)
+    args.decoder_embed_dim = getattr(args, 'decoder_embed_dim', 512)
+    args.decoder_ffn_embed_dim = getattr(args, 'decoder_ffn_embed_dim', 1024)
+    args.decoder_attention_heads = getattr(args, 'decoder_attention_heads', 4)
+    args.decoder_layers = getattr(args, 'decoder_layers', 6)
+    args.save_attn = getattr(args,'save_attn',False)
+    args.save_attn_path = getattr(args,'save_attn_path','./img')
+    args.length_pre_dim = getattr(args,'length_pre_dim',30)
+    base_architecture(args)

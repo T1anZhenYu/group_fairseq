@@ -151,17 +151,19 @@ class SequenceGenerator(object):
         tgt_len = torch.zeros(sample['target'].shape[0]).\
             new_full((sample['target'].shape[0],1),sample['target'].shape[1]).int().to(sample['target'].device)
 
-        
-        len_pre = encoder_outs[0]['len_pre'].transpose(0,1).to(sample['target'].device)
+        try:
+            len_pre = encoder_outs[0]['len_pre'].transpose(0,1).to(sample['target'].device)
 
-        L = torch.topk(len_pre,1,dim=-1)[-1].squeeze(-1).sum(dim=-1)
-        print('L')
-        print(L)
-        print('tgt')
-        print(tgt_len)
-        acc=torch.eq(tgt_len.squeeze(-1),L.int()).sum().float()/float(sample['target'].shape[0]) 
+            L = torch.topk(len_pre,1,dim=-1)[-1].squeeze(-1).sum(dim=-1)
+            print('L')
+            print(L)
+            print('tgt')
+            print(tgt_len)
+            acc=torch.eq(tgt_len.squeeze(-1),L.int()).sum().float()/float(sample['target'].shape[0]) 
 
-        print('len pre acc is{}'.format(acc))
+            print('len pre acc is{}'.format(acc))
+        except KeyError:
+            pass 
 
         new_order = torch.arange(bsz).view(-1, 1).repeat(1, beam_size).view(-1)
         new_order = new_order.to(src_tokens.device).long()
@@ -620,7 +622,9 @@ class EnsembleModel(torch.nn.Module):
                 attn = attn['attn']
             attn = attn[:, -1, :]
         #i modified this.------------------------------------------------------
-        probs = model.get_normalized_probs(decoder_out, log_probs=log_probs)[0]
+        probs = model.get_normalized_probs(decoder_out, log_probs=log_probs)
+        if isinstance(probs,tuple):
+            probs = probs[0]
         probs = probs[:, -1, :]
         return probs, attn
 
