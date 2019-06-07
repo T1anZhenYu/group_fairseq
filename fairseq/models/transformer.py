@@ -823,7 +823,7 @@ def transformer_vaswani_wmt_en_de_big(args):
 @register_model_architecture('transformer', 'transformer_vaswani_wmt_en_fr_big')
 def transformer_vaswani_wmt_en_fr_big(args):
     args.dropout = getattr(args, 'dropout', 0.1)
-
+    args.share_input_output_embed getattr(args,'share_input_output_embed',False)
     transformer_vaswani_wmt_en_de_big(args)
 
 
