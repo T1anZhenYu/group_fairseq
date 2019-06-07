@@ -137,7 +137,7 @@ def load_checkpoint_to_cpu(path):
         return(new_state)
     print('len(state)')
     print(len(state['model']))
-    if len(state['model'])==187:
+    if len(state['model'])==184:
         state['model'] = insert_layer(state['model'])
    
     state = _upgrade_state_dict(state)

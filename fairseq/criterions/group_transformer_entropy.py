@@ -130,3 +130,5 @@ class GroupTransformerEntropy(FairseqCriterion):
             'sample_size': sample_size,
             'acc':acc
         }
+
+
