@@ -135,7 +135,8 @@ def load_checkpoint_to_cpu(path):
 
                 new_state['encoder.length_pre_layer.bias']=torch.zeros(49)
         return(new_state)
-   
+    print('len(state)')
+    print(len(state['model']))
     if len(state['model'])==187:
         state['model'] = insert_layer(state['model'])
    
