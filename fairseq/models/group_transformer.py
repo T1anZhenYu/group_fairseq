@@ -821,3 +821,47 @@ def transformer_iwslt_de_en(args):
     args.save_attn_path = getattr(args,'save_attn_path','./img')
     args.length_pre_dim = getattr(args,'length_pre_dim',30)
     base_architecture(args)
+
+@register_model_architecture('group_transformer', 'group_transformer_wmt_en_de')
+def transformer_wmt_en_de(args):
+    args.save_attn = getattr(args,'save_attn',False)
+    args.save_attn_path = getattr(args,'save_attn_path','./img')
+    base_architecture(args)
+
+
+# parameters used in the "Attention Is All You Need" paper (Vaswani et al., 2017)
+@register_model_architecture('group_transformer', 'group_transformer_vaswani_wmt_en_de_big')
+def transformer_vaswani_wmt_en_de_big(args):
+    args.encoder_embed_dim = getattr(args, 'encoder_embed_dim', 1024)
+    args.encoder_ffn_embed_dim = getattr(args, 'encoder_ffn_embed_dim', 4096)
+    args.encoder_attention_heads = getattr(args, 'encoder_attention_heads', 16)
+    args.encoder_normalize_before = getattr(args, 'encoder_normalize_before', False)
+    args.decoder_embed_dim = getattr(args, 'decoder_embed_dim', 1024)
+    args.decoder_ffn_embed_dim = getattr(args, 'decoder_ffn_embed_dim', 4096)
+    args.decoder_attention_heads = getattr(args, 'decoder_attention_heads', 16)
+    args.dropout = getattr(args, 'dropout', 0.3)
+    args.save_attn = getattr(args,'save_attn',False)
+    args.save_attn_path = getattr(args,'save_attn_path','./img')
+    base_architecture(args)
+
+
+@register_model_architecture('group_transformer', 'group_transformer_vaswani_wmt_en_fr_big')
+def transformer_vaswani_wmt_en_fr_big(args):
+    args.dropout = getattr(args, 'dropout', 0.1)
+    transformer_vaswani_wmt_en_de_big(args)
+
+
+@register_model_architecture('group_transformer', 'group_transformer_wmt_en_de_big')
+def transformer_wmt_en_de_big(args):
+    args.attention_dropout = getattr(args, 'attention_dropout', 0.1)
+    transformer_vaswani_wmt_en_de_big(args)
+
+
+# default parameters used in tensor2tensor implementation
+@register_model_architecture('group_transformer', 'group_transformer_wmt_en_de_big_t2t')
+def transformer_wmt_en_de_big_t2t(args):
+    args.encoder_normalize_before = getattr(args, 'encoder_normalize_before', True)
+    args.decoder_normalize_before = getattr(args, 'decoder_normalize_before', True)
+    args.attention_dropout = getattr(args, 'attention_dropout', 0.1)
+    args.activation_dropout = getattr(args, 'activation_dropout', 0.1)
+    transformer_vaswani_wmt_en_de_big(args)
