@@ -140,7 +140,7 @@ def load_checkpoint_to_cpu(path):
         state['model'] = insert_layer(state['model'])
     '''
     print('state model decoder embed out')
-    print(state['model']['decoder.embed_out'])
+    print(state['model'])
     state = _upgrade_state_dict(state)
 
 
