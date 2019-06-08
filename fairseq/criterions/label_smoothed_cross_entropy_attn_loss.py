@@ -65,6 +65,7 @@ class LabelSmoothedCrossEntropyCriterionAttnLoss(FairseqCriterion):
         target = model.get_targets(sample, net_output).view(-1, 1)
  
         #----
+        attns = net_output[1]['attn']
         loss_eos =  attns[:,:,-2:][:,:-2].sum()-attns[:,:,-2:][:,-2:].sum()
         loss_eos = loss_eos.float() 
 
