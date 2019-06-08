@@ -355,6 +355,8 @@ class TransformerDecoder(FairseqIncrementalDecoder):
             self.embed_out = nn.Parameter(torch.Tensor(len(dictionary), self.output_embed_dim))
             nn.init.normal_(self.embed_out, mean=0, std=self.output_embed_dim ** -0.5)
         '''
+        print('------------self.share_input_output_embed')
+        print(self.share_input_output_embed)
         if self.share_input_output_embed:
             print('share-input-output-embed')
             self.embed_out = nn.Parameter(torch.Tensor(len(dictionary), self.output_embed_dim))
