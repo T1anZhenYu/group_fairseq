@@ -349,7 +349,13 @@ class TransformerDecoder(FairseqIncrementalDecoder):
                 factor=args.adaptive_softmax_factor,
                 tie_proj=args.tie_adaptive_proj,
             )
+        '''
         elif not self.share_input_output_embed:
+            print('share-input-output-embed')
+            self.embed_out = nn.Parameter(torch.Tensor(len(dictionary), self.output_embed_dim))
+            nn.init.normal_(self.embed_out, mean=0, std=self.output_embed_dim ** -0.5)
+        '''
+        if self.share_input_output_embed:
             print('share-input-output-embed')
             self.embed_out = nn.Parameter(torch.Tensor(len(dictionary), self.output_embed_dim))
             nn.init.normal_(self.embed_out, mean=0, std=self.output_embed_dim ** -0.5)
