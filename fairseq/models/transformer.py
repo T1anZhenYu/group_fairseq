@@ -458,6 +458,7 @@ class TransformerDecoder(FairseqIncrementalDecoder):
                 print('output_layer 2')
                 return F.linear(features, self.embed_out)
         else:
+            print('output_layer 3')
             return features
 
     def max_positions(self):
