@@ -350,8 +350,8 @@ class TransformerDecoder(FairseqIncrementalDecoder):
         
         elif not self.share_input_output_embed:
             print('share-input-output-embed')
-            self.embed_out = nn.Parameter(torch.Tensor(len(dictionary), self.output_embed_dim))
-            nn.init.normal_(self.embed_out, mean=0, std=self.output_embed_dim ** -0.5)
+            self.embed_out_parameter = nn.Parameter(torch.Tensor(len(dictionary), self.output_embed_dim))
+            nn.init.normal_(self.embed_out_parameter, mean=0, std=self.output_embed_dim ** -0.5)
         
         '''
         print('self.share_input_output_embed')
@@ -368,6 +368,8 @@ class TransformerDecoder(FairseqIncrementalDecoder):
         #------------------------------------------------------------
         self.save_attn = args.save_attn
         self.save_attn_path = args.save_attn_path
+        
+
     def forward(self, prev_output_tokens, encoder_out=None, incremental_state=None, **unused):
         """
         Args:
@@ -456,7 +458,7 @@ class TransformerDecoder(FairseqIncrementalDecoder):
                 return F.linear(features, self.embed_tokens.weight)
             else:
                 print('output_layer 2')
-                return F.linear(features, self.embed_out)
+                return F.linear(features, self.embed_out_parameter)
         else:
             print('output_layer 3')
             return features
