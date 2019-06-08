@@ -13,8 +13,8 @@ from . import FairseqCriterion, register_criterion
 from torchvision.utils import save_image
 import time
 import torch
-@register_criterion('label_smoothed_cross_entropy')
-class LabelSmoothedCrossEntropyCriterion(FairseqCriterion):
+@register_criterion('label_smoothed_cross_entropy_attn_loss')
+class LabelSmoothedCrossEntropyCriterionAttnLoss(FairseqCriterion):
 
     def __init__(self, args, task):
         super().__init__(args, task)
